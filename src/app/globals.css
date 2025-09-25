@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* 主题色变量 */
+  --primary-terracotta: #a83913;
+  --primary-stone: #a59b8f;
+  --primary-midnight: #262b2f;
+  --primary-steel: #d3cfca;
+  --primary-mist: #dde2e7;
+  --primary-parchment: #efeee9;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-noto-sans: var(--font-noto-sans);
+  --font-pp-museum: var(--font-pp-museum);
+  --font-caveat: var(--font-caveat);
+
+  /* 主题色定义 */
+  --color-primary-terracotta: var(--primary-terracotta);
+  --color-primary-stone: var(--primary-stone);
+  --color-primary-midnight: var(--primary-midnight);
+  --color-primary-steel: var(--primary-steel);
+  --color-primary-mist: var(--primary-mist);
+  --color-primary-parchment: var(--primary-parchment);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.content-toggle:checked + label .content-arrow {
+  transform: rotate(180deg);
+}
+
+.content-toggle:checked ~ .content-submenu {
+  max-height: 1000px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+/* 测试颜色类 */
+.test-terracotta {
+  color: var(--primary-terracotta);
+}
+
+.test-stone {
+  color: var(--primary-stone);
+}
+
+.test-midnight {
+  color: var(--primary-midnight);
+}
+
+.test-steel {
+  color: var(--primary-steel);
+}
+
+.test-mist {
+  color: var(--primary-mist);
+}
+
+.test-parchment {
+  color: var(--primary-parchment);
+}
+
+.bg-test-terracotta {
+  background-color: var(--primary-terracotta);
+}
+
+.bg-test-stone {
+  background-color: var(--primary-stone);
+}
+
+.bg-test-midnight {
+  background-color: var(--primary-midnight);
+}
+
+.bg-test-steel {
+  background-color: var(--primary-steel);
+}
+
+.bg-test-mist {
+  background-color: var(--primary-mist);
+}
+
+.bg-test-parchment {
+  background-color: var(--primary-parchment);
+}
