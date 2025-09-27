@@ -56,7 +56,7 @@ const South = async () => {
             </h1>
 
             <p className="text-primary-parchment font-pp-museum text-[18px] md:text-[20px] font-[300] leading-[1.6]">
-              {long_description}
+              {long_description[0].children[0].text}
             </p>
           </div>
         </div>

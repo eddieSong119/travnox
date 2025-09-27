@@ -161,7 +161,7 @@ export default async function Home() {
               secondColor="text-primary-parchment"
             />
             <Description
-              description={section2.description}
+              description={section2.long_description[0].children[0].text}
               textColor="text-primary-parchment"
             />
             <CTAButton
@@ -181,7 +181,7 @@ export default async function Home() {
             />
             <Title title={section3.title} breakAt={section3.title_breakAt} />
             <Description
-              description={section3.long_description}
+              description={section3.description}
               breakAt={section3.description_breakAt}
               textColor="text-primary-midnight"
             />
