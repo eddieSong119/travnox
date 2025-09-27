@@ -44,6 +44,7 @@ const ActivityCard = ({ activity }) => {
         width={imageData.width}
         height={imageData.height}
         className="w-full h-auto object-cover rounded-t-[10px]"
+        unoptimized={true}
       />
       <div className="pt-7 px-6">
         <span className="text-start font-noto-sans text-[14px] font-[500] tracking-[1.4px] text-primary-midnight mb-3">

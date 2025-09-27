@@ -16,7 +16,7 @@ async function getNorthData() {
 
 const North = async () => {
   const pageData = await getNorthData();
-  const { title, intro, description, content } = pageData;
+  const { title, intro, long_description, content } = pageData;
   console.log(content);
   const routeContent = content[0];
   const routeTitle = routeContent.title;
@@ -56,7 +56,7 @@ const North = async () => {
             </h1>
 
             <p className="text-primary-midnight font-pp-museum text-[18px] md:text-[20px] font-[300] leading-[1.6]">
-              {description}
+              {long_description}
             </p>
           </div>
         </div>

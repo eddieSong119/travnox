@@ -181,7 +181,7 @@ export default async function Home() {
             />
             <Title title={section3.title} breakAt={section3.title_breakAt} />
             <Description
-              description={section3.description}
+              description={section3.long_description}
               breakAt={section3.description_breakAt}
               textColor="text-primary-midnight"
             />
