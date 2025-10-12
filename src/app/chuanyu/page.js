@@ -5,6 +5,35 @@ import Polaroid from "@/components/Polaroid";
 import ContactForm from "@/components/ContactForm";
 import Link from "next/link";
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://travnox.com.au";
+
+export const metadata = {
+  title: "Explore Chuanyu",
+  description:
+    "Wander where myths take root in Sichuan and Chongqing. Experience spicy cuisine, ancient tea culture, and dramatic mountain landscapes. Premium stays and authentic encounters in China's mystical heartland.",
+  openGraph: {
+    title: "Explore Chuanyu | Travnox - Luxury China Travel",
+    description:
+      "Wander where myths take root in Sichuan and Chongqing. Experience spicy cuisine, ancient tea culture, and dramatic mountain landscapes in China's mystical heartland.",
+    url: `${baseUrl}/chuanyu`,
+    images: [
+      {
+        url: `${baseUrl}/images/Southwest@2x.png`,
+        width: 1200,
+        height: 630,
+        alt: "Explore Chuanyu - Travnox",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Explore Chuanyu | Travnox",
+    description:
+      "Wander where myths take root in Sichuan and Chongqing. Experience spicy cuisine, ancient tea culture, and dramatic mountain landscapes.",
+    images: [`${baseUrl}/images/Southwest@2x.png`],
+  },
+};
+
 async function getChuanyuData() {
   const data = await strapiService.fetchEndpoint("journeys");
   const chuanyuPage = data.data.find((item) => {
@@ -18,12 +47,10 @@ async function getChuanyuData() {
 const Chuanyu = async () => {
   const pageData = await getChuanyuData();
   const { title, intro, long_description, content } = pageData;
-  console.log(content);
   const routeContent = content[0];
   const routeTitle = routeContent.title;
   const routeItinerary = routeContent.description.itinerary;
   const activities = routeContent.activity;
-  console.log(activities);
 
   return (
     <main className="md:min-w-[1420px] @container">

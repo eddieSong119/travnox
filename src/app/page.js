@@ -13,6 +13,35 @@ import ContactForm from "@/components/ContactForm";
 import Image from "next/image";
 import Link from "next/link";
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://travnox.com.au";
+
+export const metadata = {
+  title: "Luxury Travel to China | Curated Cultural Experiences",
+  description:
+    "Discover authentic China through curated luxury travel experiences. From ancient temples to modern metropolises, explore premium cultural encounters with expert guides and 5-star hospitality.",
+  openGraph: {
+    title: "Travnox - Luxury Travel to China | Curated Cultural Experiences",
+    description:
+      "Discover authentic China through curated luxury travel experiences. From ancient temples to modern metropolises, explore premium cultural encounters with expert guides.",
+    url: baseUrl,
+    images: [
+      {
+        url: `${baseUrl}/images/home-banner@2x.png`,
+        width: 1200,
+        height: 630,
+        alt: "Travnox - Luxury Travel to China",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Travnox - Luxury Travel to China | Curated Cultural Experiences",
+    description:
+      "Discover authentic China through curated luxury travel experiences. From ancient temples to modern metropolises, explore premium cultural encounters.",
+    images: [`${baseUrl}/images/home-banner@2x.png`],
+  },
+};
+
 // Server-side function to fetch home data from Strapi - using the service
 async function getHomeData() {
   // Use the Strapi service to fetch home endpoint data

@@ -5,6 +5,35 @@ import Polaroid from "@/components/Polaroid";
 import ContactForm from "@/components/ContactForm";
 import Link from "next/link";
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://travnox.com.au";
+
+export const metadata = {
+  title: "Experience the South",
+  description:
+    "Discover Southern China's vibrant culture and natural beauty. From Shanghai's modern skyline to Guangdong's dynamic cities, enjoy curated luxury experiences with 5-star accommodation and authentic local encounters.",
+  openGraph: {
+    title: "Experience the South | Travnox - Luxury China Travel",
+    description:
+      "Discover Southern China's vibrant culture and natural beauty. From Shanghai's modern skyline to Guangdong's dynamic cities, enjoy curated luxury experiences with 5-star accommodation.",
+    url: `${baseUrl}/south`,
+    images: [
+      {
+        url: `${baseUrl}/images/South@2x.png`,
+        width: 1200,
+        height: 630,
+        alt: "Experience Southern China - Travnox",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Experience the South | Travnox",
+    description:
+      "Discover Southern China's vibrant culture and natural beauty. From Shanghai's modern skyline to Guangdong's dynamic cities, enjoy curated luxury experiences.",
+    images: [`${baseUrl}/images/South@2x.png`],
+  },
+};
+
 async function getSouthData() {
   const data = await strapiService.fetchEndpoint("journeys");
   const southPage = data.data.find((item) => {

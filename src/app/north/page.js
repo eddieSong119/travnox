@@ -5,6 +5,35 @@ import Polaroid from "@/components/Polaroid";
 import ContactForm from "@/components/ContactForm";
 import Link from "next/link";
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://travnox.com.au";
+
+export const metadata = {
+  title: "Journey to The North",
+  description:
+    "Experience the ancient wonders of Northern China. Explore Beijing's imperial palaces, walk the Great Wall, and discover luxury accommodations in China's historic heartland. 10 nights of premium cultural immersion.",
+  openGraph: {
+    title: "Journey to The North | Travnox - Luxury China Travel",
+    description:
+      "Experience the ancient wonders of Northern China. Explore Beijing's imperial palaces, walk the Great Wall, and discover luxury accommodations in China's historic heartland.",
+    url: `${baseUrl}/north`,
+    images: [
+      {
+        url: `${baseUrl}/images/North@2x.png`,
+        width: 1200,
+        height: 630,
+        alt: "Journey to Northern China - Travnox",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Journey to The North | Travnox",
+    description:
+      "Experience the ancient wonders of Northern China. Explore Beijing's imperial palaces, walk the Great Wall, and discover luxury accommodations.",
+    images: [`${baseUrl}/images/North@2x.png`],
+  },
+};
+
 async function getNorthData() {
   const data = await strapiService.fetchEndpoint("journeys");
   const northPage = data.data.find((item) => {

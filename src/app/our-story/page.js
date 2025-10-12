@@ -2,6 +2,35 @@ import Polaroid from "@/components/Polaroid";
 import LargeGallery from "@/components/HomePage/LargeGallery";
 import Link from "next/link";
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://travnox.com.au";
+
+export const metadata = {
+  title: "Our Story - Building Connections Through Travel",
+  description:
+    "Founded by Karl Hong, TravNox bridges perception and reality through authentic cultural encounters. We believe travel is about people, stories, and connections that transcend borders.",
+  openGraph: {
+    title: "Our Story | Travnox - Building Connections Through Travel",
+    description:
+      "Founded by Karl Hong, TravNox bridges perception and reality through authentic cultural encounters. Travel is about people, stories, and connections that transcend borders.",
+    url: `${baseUrl}/our-story`,
+    images: [
+      {
+        url: `${baseUrl}/images/about-pic-1.png`,
+        width: 1200,
+        height: 630,
+        alt: "Our Story - Travnox",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Our Story | Travnox",
+    description:
+      "Founded by Karl Hong, TravNox bridges perception and reality through authentic cultural encounters.",
+    images: [`${baseUrl}/images/about-pic-1.png`],
+  },
+};
+
 const values = [
   <div
     key={1}

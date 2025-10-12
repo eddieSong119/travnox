@@ -1,5 +1,34 @@
 import ContactForm from "@/components/ContactForm";
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://travnox.com.au";
+
+export const metadata = {
+  title: "Contact Us - Start Your Journey",
+  description:
+    "Get in touch with our team to explore departure dates, customize your luxury China travel experience, and start your journey. We're here to help you discover authentic China.",
+  openGraph: {
+    title: "Contact Us | Travnox - Start Your Journey",
+    description:
+      "Get in touch with our team to explore departure dates, customize your luxury China travel experience, and start your journey to authentic China.",
+    url: `${baseUrl}/contact`,
+    images: [
+      {
+        url: `${baseUrl}/images/Contact@2x.png`,
+        width: 1200,
+        height: 630,
+        alt: "Contact Travnox",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Us | Travnox",
+    description:
+      "Get in touch with our team to explore departure dates and start your journey to authentic China.",
+    images: [`${baseUrl}/images/Contact@2x.png`],
+  },
+};
+
 const Contact = () => {
   return (
     <div
