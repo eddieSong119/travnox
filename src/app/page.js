@@ -6,12 +6,12 @@ import {
   Description,
   TwoColorTitle,
 } from "@/components/HomePage/Title";
-import CTAButton from "@/components/CTAButton";
 import Stays from "@/components/HomePage/Stays";
 import LargeGallery from "@/components/HomePage/LargeGallery";
 import GalleryElement from "@/components/HomePage/LargeGallery/element";
 import ContactForm from "@/components/ContactForm";
 import Image from "next/image";
+import Link from "next/link";
 
 // Server-side function to fetch home data from Strapi - using the service
 async function getHomeData() {
@@ -94,7 +94,6 @@ export default async function Home() {
 
   // Fetch data on the server side using Strapi service
   const { data: homeData, error } = await getHomeData();
-  console.log(homeData);
   const sections = homeData.content.filter(
     (section) => section.__component === "components.section"
   );
@@ -120,7 +119,7 @@ export default async function Home() {
             srcSet="/images/home-banner-mobile@1x.png 1x, /images/home-banner-mobile@2x.png 2x"
             alt="Background"
             fill
-            className="object-contain md:hidden object-bottom"
+            className="object-contain md:hidden object-bottom z-0"
             sizes="100vw"
             quality={100}
           />
@@ -130,17 +129,20 @@ export default async function Home() {
             srcSet="/images/home-banner@1x.png 1x, /images/home-banner@2x.png 2x"
             alt="Background"
             fill
-            className="object-cover hidden md:block"
+            className="object-cover hidden md:block z-0"
             sizes="100vw"
             quality={100}
           />
-          <div className=" flex flex-col items-center justify-center mx-auto pt-[100px] px-[5vw] md:px-0 md:max-w-[1152px]">
+          <div className="relative z-10 flex flex-col items-center justify-center mx-auto pt-[100px] px-[5vw] md:px-0 md:max-w-[1152px]">
             <Intro intro={section1.intro} />
             <Title title={section1.title} breakAt={section1.title_breakAt} />
             <Description description={section1.description} />
-            <button className="w-full mt-6 md:w-auto bg-primary-terracotta text-primary-parchment py-2 px-8 text-[16px] font-noto-sans font-[500] leading-[160%] rounded-full">
-              START YOUR JOURNEY
-            </button>
+            <Link
+              href="/contact"
+              className="w-full mt-6 md:w-auto bg-primary-terracotta text-primary-parchment py-2 px-8 text-[16px] font-noto-sans font-[500] leading-[160%] rounded-full text-center"
+            >
+              START YOUR JOURNEYY
+            </Link>
           </div>
         </section>
 
@@ -164,11 +166,12 @@ export default async function Home() {
               description={section2.long_description[0].children[0].text}
               textColor="text-primary-parchment"
             />
-            <CTAButton
-              text={section2.CTA}
-              color="primary-parchment"
-              margin="mt-10"
-            />
+            <Link
+              href="/our-story"
+              className={`text-primary-parchment border-primary-parchment mt-10 px-7 py-3 rounded-full border font-noto-sans font-[500] text-[16px] `}
+            >
+              {section2.CTA}
+            </Link>
           </div>
         </section>
 

@@ -115,7 +115,10 @@ export default function NavBar() {
 
         {/* CTA Button */}
         <div className="hidden md:block ml-8 h-full">
-          <button className="bg-primary-terracotta hover:bg-primary-midnight font-noto-sans font-normal text-white px-6 py-0 h-full text-sm font-medium transition-colors duration-200">
+          <button
+            onClick={() => router.push("/contact")}
+            className="bg-primary-terracotta hover:bg-primary-midnight font-noto-sans font-normal text-white px-6 py-0 h-full text-sm font-medium transition-colors duration-200"
+          >
             START YOUR JOURNEY
           </button>
         </div>
@@ -226,7 +229,10 @@ export default function NavBar() {
             </div>
 
             <div className="pt-4">
-              <button className="w-full bg-primary-terracotta rounded-full text-primary-parchment py-3 font-noto-sans text-[14px] font-[500] leading-[160%]">
+              <button
+                onClick={() => router.push("/contact")}
+                className="w-full bg-primary-terracotta rounded-full text-primary-parchment py-3 font-noto-sans text-[14px] font-[500] leading-[160%]"
+              >
                 START YOUR JOURNEY
               </button>
             </div>

@@ -1,5 +1,6 @@
 import Polaroid from "@/components/Polaroid";
 import LargeGallery from "@/components/HomePage/LargeGallery";
+import Link from "next/link";
 
 const values = [
   <div
@@ -194,9 +195,12 @@ const OurStory = () => {
             you, and perspectives that change you.
           </p>
 
-          <button className="bg-primary-terracotta text-primary-parchment px-7 py-3 rounded-full font-noto-sans text-[14px] md:text-[16px] font-[500] text-center md:max-w-[540px]">
+          <Link
+            href="/contact"
+            className="bg-primary-terracotta text-primary-parchment px-7 py-3 rounded-full font-noto-sans text-[14px] md:text-[16px] font-[500] text-center md:max-w-[540px]"
+          >
             START YOUR JOURNEY
-          </button>
+          </Link>
         </div>
         <img
           src="/images/about-bg-2@1x.png"

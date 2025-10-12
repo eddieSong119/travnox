@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import LargeGallery from "@/components/HomePage/LargeGallery";
+import Link from "next/link";
 
 const ActivityCard = ({ activity }) => {
   const imageData = activity.image;
@@ -162,9 +163,12 @@ const Stays = ({ section }) => {
       </div>
 
       <div className="w-full flex justify-center mt-10 md:mt-[100px]">
-        <button className="w-auto bg-primary-terracotta text-primary-parchment py-2 px-8 text-[16px] font-noto-sans font-[500] leading-[160%] rounded-full">
+        <Link
+          href="/contact"
+          className="w-auto bg-primary-terracotta text-primary-parchment py-2 px-8 text-[16px] font-noto-sans font-[500] leading-[160%] rounded-full"
+        >
           START YOUR JOURNEY
-        </button>
+        </Link>
       </div>
     </section>
   );

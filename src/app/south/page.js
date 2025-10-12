@@ -3,6 +3,7 @@ import Image from "next/image";
 import CollapsibleContent from "@/components/HomePage/LargeGallery/CollapsibleContent";
 import Polaroid from "@/components/Polaroid";
 import ContactForm from "@/components/ContactForm";
+import Link from "next/link";
 
 async function getSouthData() {
   const data = await strapiService.fetchEndpoint("journeys");
@@ -202,9 +203,12 @@ const South = async () => {
                 })}
               </div>
 
-              <button className="mt-10 bg-primary-terracotta text-primary-parchment px-7 py-3 rounded-full font-noto-sans text-[14px] md:text-[16px] font-[500] text-center w-full md:max-w-fit">
+              <Link
+                href="/contact"
+                className="mt-10 bg-primary-terracotta text-primary-parchment px-7 py-3 rounded-full font-noto-sans text-[14px] md:text-[16px] font-[500] text-center w-full md:max-w-fit"
+              >
                 START YOUR JOURNEY
-              </button>
+              </Link>
             </div>
 
             <div className="h-full">
