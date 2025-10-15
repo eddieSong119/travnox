@@ -1,5 +1,5 @@
 export default function sitemap() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://travnox.com.au";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.travnox.com.au";
 
   const routes = [
     {

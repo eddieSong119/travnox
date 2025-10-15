@@ -2,7 +2,7 @@ import Polaroid from "@/components/Polaroid";
 import LargeGallery from "@/components/HomePage/LargeGallery";
 import Link from "next/link";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://travnox.com.au";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.travnox.com.au";
 
 export const metadata = {
   title: "Our Story - Building Connections Through Travel",

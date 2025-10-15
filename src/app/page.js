@@ -13,7 +13,7 @@ import ContactForm from "@/components/ContactForm";
 import Image from "next/image";
 import Link from "next/link";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://travnox.com.au";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.travnox.com.au";
 
 export const metadata = {
   title: "Luxury Travel to China | Curated Cultural Experiences",
