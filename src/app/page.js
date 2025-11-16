@@ -13,7 +13,8 @@ import ContactForm from "@/components/ContactForm";
 import Image from "next/image";
 import Link from "next/link";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.travnox.com.au";
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.travnox.com.au";
 
 export const metadata = {
   title: "Luxury Travel to China | Curated Cultural Experiences",
@@ -162,10 +163,33 @@ export default async function Home() {
             sizes="100vw"
             quality={100}
           />
-          <div className="relative z-10 flex flex-col items-center justify-center mx-auto pt-[100px] px-[5vw] md:px-0 md:max-w-[1152px]">
-            <Intro intro={section1.intro} />
+          <div className="relative z-10 flex flex-col items-center justify-center mx-auto pt-[50px] px-[5vw] md:px-0 md:max-w-[1152px]">
+            <div className="relative md:block hidden">
+              <p className="font-noto-sans text-[14px] font-[600] leading-[100%] text-center">
+                IN PARTNERSHIP WITH
+              </p>
+              <Image
+                src="/brand/XMAirTravel.png"
+                alt="XMAirTravel"
+                width={372}
+                height={35}
+                className="relative bottom-3"
+              />
+            </div>
             <Title title={section1.title} breakAt={section1.title_breakAt} />
             <Description description={section1.description} />
+            <div className="relative md:hidden block mt-4">
+              <p className="font-noto-sans text-[14px] font-[600] leading-[100%] text-center">
+                PROUDLY PARTNERED WITH
+              </p>
+              <Image
+                src="/brand/XMAirTravel.png"
+                alt="XMAirTravel"
+                width={372}
+                height={35}
+                className="relative bottom-3"
+              />
+            </div>
             <Link
               href="/contact"
               className="w-full mt-6 md:w-auto bg-primary-terracotta text-primary-parchment py-2 px-8 text-[16px] font-noto-sans font-[500] leading-[160%] rounded-full text-center"

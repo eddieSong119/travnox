@@ -4,7 +4,8 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import GoogleAnalytics from "../components/GoogleAnalytics";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.travnox.com.au";
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.travnox.com.au";
 
 export const metadata = {
   metadataBase: new URL(baseUrl),
