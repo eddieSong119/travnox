@@ -3,9 +3,11 @@ import Image from "next/image";
 import CollapsibleContent from "@/components/HomePage/LargeGallery/CollapsibleContent";
 import Polaroid from "@/components/Polaroid";
 import ContactForm from "@/components/ContactForm";
+import DetailedItinerary from "@/components/detailedItinerary";
 import Link from "next/link";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.travnox.com.au";
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.travnox.com.au";
 
 export const metadata = {
   title: "Experience the South",
@@ -47,12 +49,11 @@ async function getSouthData() {
 const South = async () => {
   const pageData = await getSouthData();
   const { title, intro, long_description, content } = pageData;
-  console.log(content);
   const routeContent = content[0];
   const routeTitle = routeContent.title;
   const routeItinerary = routeContent.description.itinerary;
+  const detailedItinerary = routeContent.description.detailedItinerary;
   const activities = routeContent.activity;
-  console.log(activities);
 
   return (
     <main className="md:min-w-[1420px] @container">
@@ -206,7 +207,7 @@ const South = async () => {
 
               <div className="mt-10">
                 <p className="text-primary-midnight font-pp-museum text-[20px] md:text-[24px] font-[300] mb-6">
-                  Itinerary
+                  Trip overview
                 </p>
                 {routeItinerary.map((desc, index) => {
                   return (
@@ -515,13 +516,42 @@ const South = async () => {
         </div>
       </section>
 
-      <section className="w-full relative h-auto bg-primary-parchment flex flex-col items-center justify-center">
+      <section className="w-full relative h-auto bg-primary-steel flex flex-col items-center justify-center">
         <img
           src="/images/bottom-bg-midnight.png"
           alt="Bottom background"
-          className="w-full h-auto object-cover"
+          className="w-full h-auto object-cover relative bottom-1"
         />
+        <div className="md:w-[700px] mt-[100px]">
+          {detailedItinerary && detailedItinerary.length > 0 && (
+            <div className="mb-[80px] px-[5vw]">
+              <h2 className="text-primary-midnight font-pp-museum text-[24px] md:text-[32px] font-[500] mb-6 leading-[1.2] text-center">
+                Detailed Itinerary
+              </h2>
+              <div className="flex flex-col gap-0">
+                {detailedItinerary.map((item, index) => (
+                  <DetailedItinerary
+                    key={item.day || index}
+                    item={item}
+                    textColor="text-primary-midnight"
+                    className={`py-5 ${
+                      index !== 0
+                        ? "border-b border-primary-stone"
+                        : "border-t border-b border-primary-stone"
+                    }`}
+                    titleFont="text-[16px] font-noto-sans leading-[1.6]"
+                    titleMargin=""
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="w-full relative h-auto bg-primary-parchment flex flex-col items-center justify-center">
         <div className="md:w-[700px] mt-[100px] mb-[200px]">
+          、
           <h2 className="text-primary-midnight font-pp-museum text-[24px] md:text-[48px] font-[500] mb-4 leading-[1.2] text-center">
             Experience the South
           </h2>
