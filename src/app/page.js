@@ -192,7 +192,7 @@ export default async function Home() {
             </div>
             <Link
               href="/contact"
-              className="w-full mt-6 md:w-auto bg-primary-terracotta text-primary-parchment py-2 px-8 text-[16px] font-noto-sans font-[500] leading-[160%] rounded-full text-center"
+              className="w-full mt-0 md:mt-6 md:w-auto bg-primary-terracotta text-primary-parchment py-2 px-8 text-[16px] font-noto-sans font-[500] leading-[160%] rounded-full text-center"
             >
               START YOUR JOURNEYY
             </Link>
