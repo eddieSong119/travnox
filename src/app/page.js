@@ -194,7 +194,7 @@ export default async function Home() {
               href="/contact"
               className="w-full mt-0 md:mt-6 md:w-auto bg-primary-terracotta text-primary-parchment py-2 px-8 text-[16px] font-noto-sans font-[500] leading-[160%] rounded-full text-center"
             >
-              START YOUR JOURNEYY
+              START YOUR JOURNEY
             </Link>
           </div>
         </section>
