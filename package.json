@@ -11,6 +11,9 @@
   "dependencies": {
     "@react-email/render": "^1.3.2",
     "@splidejs/react-splide": "^0.7.12",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.86.0",
+    "@vercel/blob": "^2.0.0",
     "lenis": "^1.3.11",
     "next": "15.5.2",
     "react": "19.1.0",
