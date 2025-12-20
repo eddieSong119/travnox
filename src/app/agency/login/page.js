@@ -148,7 +148,7 @@ export default function AgencyLoginPage() {
 
           <div className="text-center">
             <p className="text-primary-stone font-noto-sans text-sm">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link
                 href="/agency/register"
                 className="text-primary-terracotta hover:underline"

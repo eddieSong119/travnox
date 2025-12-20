@@ -202,7 +202,7 @@ export default function TravellersListPage() {
         <div className="bg-white rounded-lg p-8 border border-primary-steel text-center">
           {searchTerm ? (
             <p className="text-primary-stone font-noto-sans">
-              No travellers found matching "{searchTerm}"
+              No travellers found matching &quot;{searchTerm}&quot;
             </p>
           ) : (
             <>
