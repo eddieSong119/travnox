@@ -76,12 +76,13 @@ export async function POST(request) {
       );
     }
 
-    // 上传到 Vercel Blob
+    // 上传到 Vercel Blob（私有模式）
     const blob = await put(
-      `documents/${travellerId}/${Date.now()}-${file.name}`,
+      `documents/${agency.id}/${travellerId}/${Date.now()}-${file.name}`,
       file,
       {
-        access: "public",
+        access: "public", // Vercel Blob 免费版只支持 public，我们通过 API 代理控制访问
+        addRandomSuffix: true, // 添加随机后缀增加安全性
       }
     );
 

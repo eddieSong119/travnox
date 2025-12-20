@@ -378,7 +378,7 @@ export default function TravellerDetailPage({ params }) {
                   </div>
                 </div>
                 <a
-                  href={doc.blob_url}
+                  href={`/api/documents/view/${doc.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary-terracotta hover:underline font-noto-sans text-sm"

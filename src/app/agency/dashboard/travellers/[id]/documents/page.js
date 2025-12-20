@@ -336,7 +336,7 @@ export default function TravellerDocumentsPage({ params }) {
                 </div>
                 <div className="flex items-center space-x-3">
                   <a
-                    href={doc.blob_url}
+                    href={`/api/documents/view/${doc.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary-terracotta hover:underline font-noto-sans text-sm"
@@ -362,4 +362,3 @@ export default function TravellerDocumentsPage({ params }) {
     </div>
   );
 }
-
