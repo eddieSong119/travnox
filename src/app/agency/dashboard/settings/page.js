@@ -4,59 +4,62 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
-export default function SettingsPage() {
+export default function AgencySettingsPage() {
   const router = useRouter();
   const supabase = createClient();
-  const [traveller, setTraveller] = useState(null);
+  const [agency, setAgency] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    agencyName: "",
+    contactName: "",
     email: "",
     phone: "",
+    address: "",
+    businessLicense: "",
   });
 
   const [passwordData, setPasswordData] = useState({
-    currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
 
   useEffect(() => {
-    fetchTravellerData();
+    fetchAgencyData();
   }, []);
 
-  const fetchTravellerData = async () => {
+  const fetchAgencyData = async () => {
     try {
       const {
         data: { user },
       } = await supabase.auth.getUser();
 
       if (!user) {
-        router.push("/travellers/account/register");
+        router.push("/agency/login");
         return;
       }
 
-      const { data: travellerData } = await supabase
-        .from("travellers")
+      const { data: agencyData } = await supabase
+        .from("agencies")
         .select("*")
         .eq("user_id", user.id)
         .single();
 
-      if (travellerData) {
-        setTraveller(travellerData);
+      if (agencyData) {
+        setAgency(agencyData);
         setFormData({
-          firstName: travellerData.first_name || "",
-          lastName: travellerData.last_name || "",
-          email: travellerData.email || user.email || "",
-          phone: travellerData.phone || "",
+          agencyName: agencyData.agency_name || "",
+          contactName: agencyData.contact_name || "",
+          email: agencyData.email || user.email || "",
+          phone: agencyData.phone || "",
+          address: agencyData.address || "",
+          businessLicense: agencyData.business_license || "",
         });
       }
     } catch (error) {
-      console.error("Error fetching traveller data:", error);
+      console.error("Error fetching agency data:", error);
     } finally {
       setLoading(false);
     }
@@ -73,17 +76,18 @@ export default function SettingsPage() {
       } = await supabase.auth.getUser();
 
       if (!user) {
-        router.push("/travellers/account/register");
+        router.push("/agency/login");
         return;
       }
 
-      // 更新 traveller 信息
       const { error } = await supabase
-        .from("travellers")
+        .from("agencies")
         .update({
-          first_name: formData.firstName,
-          last_name: formData.lastName,
+          agency_name: formData.agencyName,
+          contact_name: formData.contactName,
           phone: formData.phone,
+          address: formData.address,
+          business_license: formData.businessLicense,
         })
         .eq("user_id", user.id);
 
@@ -93,10 +97,10 @@ export default function SettingsPage() {
 
       setSubmitStatus({
         type: "success",
-        message: "Profile information updated",
+        message: "Agency information updated successfully",
       });
     } catch (error) {
-      console.error("Error updating profile:", error);
+      console.error("Error updating agency:", error);
       setSubmitStatus({
         type: "error",
         message: "Update failed. Please try again later.",
@@ -129,16 +133,6 @@ export default function SettingsPage() {
     setSubmitStatus(null);
 
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (!user) {
-        router.push("/travellers/account/register");
-        return;
-      }
-
-      // 更新密码
       const { error } = await supabase.auth.updateUser({
         password: passwordData.newPassword,
       });
@@ -149,10 +143,9 @@ export default function SettingsPage() {
 
       setSubmitStatus({
         type: "success",
-        message: "Password updated",
+        message: "Password updated successfully",
       });
       setPasswordData({
-        currentPassword: "",
         newPassword: "",
         confirmPassword: "",
       });
@@ -180,10 +173,10 @@ export default function SettingsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-primary-midnight font-pp-museum text-[32px] md:text-[48px] font-[500] leading-[1.2] mb-4">
-          Account Settings
+          Agency Settings
         </h1>
         <p className="text-primary-midnight font-noto-sans text-[16px] text-primary-stone">
-          Manage your personal information and account settings
+          Manage your agency information and account settings
         </p>
       </div>
 
@@ -199,26 +192,26 @@ export default function SettingsPage() {
         </div>
       )}
 
-      {/* Personal Information */}
+      {/* Agency Information */}
       <div className="bg-white rounded-lg p-6 md:p-8 border border-primary-steel">
         <h2 className="text-primary-midnight font-pp-museum text-[24px] font-[500] mb-6">
-          Personal Information
+          Agency Information
         </h2>
         <form onSubmit={handleProfileUpdate} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label
-                htmlFor="firstName"
+                htmlFor="agencyName"
                 className="block text-[#262B2F] font-noto-sans text-base font-medium tracking-[1.6px]"
               >
-                FIRST NAME
+                AGENCY NAME
               </label>
               <input
                 type="text"
-                id="firstName"
-                value={formData.firstName}
+                id="agencyName"
+                value={formData.agencyName}
                 onChange={(e) =>
-                  setFormData({ ...formData, firstName: e.target.value })
+                  setFormData({ ...formData, agencyName: e.target.value })
                 }
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-terracotta focus:border-transparent transition-colors bg-white"
               />
@@ -226,17 +219,17 @@ export default function SettingsPage() {
 
             <div className="space-y-2">
               <label
-                htmlFor="lastName"
+                htmlFor="contactName"
                 className="block text-[#262B2F] font-noto-sans text-base font-medium tracking-[1.6px]"
               >
-                LAST NAME
+                CONTACT NAME
               </label>
               <input
                 type="text"
-                id="lastName"
-                value={formData.lastName}
+                id="contactName"
+                value={formData.contactName}
                 onChange={(e) =>
-                  setFormData({ ...formData, lastName: e.target.value })
+                  setFormData({ ...formData, contactName: e.target.value })
                 }
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-terracotta focus:border-transparent transition-colors bg-white"
               />
@@ -262,22 +255,62 @@ export default function SettingsPage() {
             </p>
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label
+                htmlFor="phone"
+                className="block text-[#262B2F] font-noto-sans text-base font-medium tracking-[1.6px]"
+              >
+                PHONE
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                value={formData.phone}
+                onChange={(e) =>
+                  setFormData({ ...formData, phone: e.target.value })
+                }
+                placeholder="Enter phone number"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-terracotta focus:border-transparent transition-colors bg-white"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label
+                htmlFor="businessLicense"
+                className="block text-[#262B2F] font-noto-sans text-base font-medium tracking-[1.6px]"
+              >
+                BUSINESS LICENSE
+              </label>
+              <input
+                type="text"
+                id="businessLicense"
+                value={formData.businessLicense}
+                onChange={(e) =>
+                  setFormData({ ...formData, businessLicense: e.target.value })
+                }
+                placeholder="Enter business license number"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-terracotta focus:border-transparent transition-colors bg-white"
+              />
+            </div>
+          </div>
+
           <div className="space-y-2">
             <label
-              htmlFor="phone"
+              htmlFor="address"
               className="block text-[#262B2F] font-noto-sans text-base font-medium tracking-[1.6px]"
             >
-              PHONE
+              ADDRESS
             </label>
-            <input
-              type="tel"
-              id="phone"
-              value={formData.phone}
+            <textarea
+              id="address"
+              value={formData.address}
               onChange={(e) =>
-                setFormData({ ...formData, phone: e.target.value })
+                setFormData({ ...formData, address: e.target.value })
               }
-              placeholder="Enter phone number"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-terracotta focus:border-transparent transition-colors bg-white"
+              rows={3}
+              placeholder="Enter business address"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-terracotta focus:border-transparent transition-colors bg-white resize-none"
             />
           </div>
 
@@ -342,7 +375,7 @@ export default function SettingsPage() {
                   confirmPassword: e.target.value,
                 })
               }
-              placeholder="Please confirm your new password"
+              placeholder="Confirm your new password"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-terracotta focus:border-transparent transition-colors bg-white"
             />
           </div>
@@ -362,18 +395,7 @@ export default function SettingsPage() {
           </div>
         </form>
       </div>
-
-      {/* Referrer Code (Future Extension) */}
-      {traveller && (
-        <div className="bg-white rounded-lg p-6 md:p-8 border border-primary-steel">
-          <h2 className="text-primary-midnight font-pp-museum text-[24px] font-[500] mb-4">
-            Referrer Code
-          </h2>
-          <p className="text-primary-stone font-noto-sans text-sm">
-            This feature is coming soon
-          </p>
-        </div>
-      )}
     </div>
   );
 }
+

@@ -1,18 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import Link from "next/link";
 
-export default function RegisterPage() {
+export default function AgencyRegisterPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const dealId = searchParams.get("dealId");
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    agencyName: "",
+    contactName: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
   });
@@ -21,23 +21,12 @@ export default function RegisterPage() {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    if (!dealId) {
-      setSubmitStatus({
-        type: "error",
-        message:
-          "Missing deal ID parameter. Please use a valid registration link.",
-      });
-    }
-  }, [dealId]);
-
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [id]: value,
     }));
-    // 清除该字段的错误
     if (errors[id]) {
       setErrors((prev) => {
         const newErrors = { ...prev };
@@ -50,12 +39,12 @@ export default function RegisterPage() {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "Please enter your first name";
+    if (!formData.agencyName.trim()) {
+      newErrors.agencyName = "Please enter your agency name";
     }
 
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = "Please enter your last name";
+    if (!formData.contactName.trim()) {
+      newErrors.contactName = "Please enter contact name";
     }
 
     if (!formData.email.trim()) {
@@ -83,14 +72,6 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!dealId) {
-      setSubmitStatus({
-        type: "error",
-        message: "Missing deal ID parameter",
-      });
-      return;
-    }
-
     if (!validateForm()) {
       return;
     }
@@ -99,17 +80,16 @@ export default function RegisterPage() {
     setSubmitStatus(null);
 
     try {
-      // 调用注册 API
-      const response = await fetch("/api/travellers/register", {
+      const response = await fetch("/api/agency/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          dealId,
-          firstName: formData.firstName,
-          lastName: formData.lastName,
+          agencyName: formData.agencyName,
+          contactName: formData.contactName,
           email: formData.email,
+          phone: formData.phone,
           password: formData.password,
         }),
       });
@@ -117,7 +97,7 @@ export default function RegisterPage() {
       const data = await response.json();
 
       if (response.ok) {
-        // 注册成功后，使用 Supabase 客户端登录
+        // 注册成功后登录
         const supabase = createClient();
         const { error: signInError } = await supabase.auth.signInWithPassword({
           email: formData.email,
@@ -131,8 +111,7 @@ export default function RegisterPage() {
               "Registration successful, but login failed. Please try logging in manually.",
           });
         } else {
-          // 登录成功，重定向到 dashboard
-          router.push("/travellers/dashboard");
+          router.push("/agency/dashboard");
         }
       } else {
         setSubmitStatus({
@@ -155,59 +134,57 @@ export default function RegisterPage() {
     <div className="w-full min-h-screen bg-primary-parchment flex items-center justify-center py-20 px-4">
       <div className="max-w-md w-full">
         <h1 className="text-primary-midnight font-pp-museum text-[32px] md:text-[48px] font-[500] leading-[1.2] text-center mb-4">
-          Create Account
+          Agency Registration
         </h1>
         <p className="text-primary-midnight font-noto-sans text-[16px] text-center mb-8">
-          Please fill in the following information to create your account
+          Register your travel agency to start managing travellers
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label
-                htmlFor="firstName"
-                className="block text-[#262B2F] font-noto-sans text-base font-medium tracking-[1.6px]"
-              >
-                FIRST NAME *
-              </label>
-              <input
-                type="text"
-                id="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-                placeholder="Enter your first name"
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-terracotta focus:border-transparent transition-colors bg-white ${
-                  errors.firstName ? "border-red-500" : "border-gray-300"
-                }`}
-              />
-              {errors.firstName && (
-                <p className="text-red-500 text-sm">{errors.firstName}</p>
-              )}
-            </div>
+          <div className="space-y-2">
+            <label
+              htmlFor="agencyName"
+              className="block text-[#262B2F] font-noto-sans text-base font-medium tracking-[1.6px]"
+            >
+              AGENCY NAME *
+            </label>
+            <input
+              type="text"
+              id="agencyName"
+              value={formData.agencyName}
+              onChange={handleChange}
+              required
+              placeholder="Enter your agency name"
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-terracotta focus:border-transparent transition-colors bg-white ${
+                errors.agencyName ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.agencyName && (
+              <p className="text-red-500 text-sm">{errors.agencyName}</p>
+            )}
+          </div>
 
-            <div className="space-y-2">
-              <label
-                htmlFor="lastName"
-                className="block text-[#262B2F] font-noto-sans text-base font-medium tracking-[1.6px]"
-              >
-                LAST NAME *
-              </label>
-              <input
-                type="text"
-                id="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
-                placeholder="Enter your last name"
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-terracotta focus:border-transparent transition-colors bg-white ${
-                  errors.lastName ? "border-red-500" : "border-gray-300"
-                }`}
-              />
-              {errors.lastName && (
-                <p className="text-red-500 text-sm">{errors.lastName}</p>
-              )}
-            </div>
+          <div className="space-y-2">
+            <label
+              htmlFor="contactName"
+              className="block text-[#262B2F] font-noto-sans text-base font-medium tracking-[1.6px]"
+            >
+              CONTACT NAME *
+            </label>
+            <input
+              type="text"
+              id="contactName"
+              value={formData.contactName}
+              onChange={handleChange}
+              required
+              placeholder="Enter contact person name"
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-terracotta focus:border-transparent transition-colors bg-white ${
+                errors.contactName ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.contactName && (
+              <p className="text-red-500 text-sm">{errors.contactName}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -231,6 +208,23 @@ export default function RegisterPage() {
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email}</p>
             )}
+          </div>
+
+          <div className="space-y-2">
+            <label
+              htmlFor="phone"
+              className="block text-[#262B2F] font-noto-sans text-base font-medium tracking-[1.6px]"
+            >
+              PHONE
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Enter phone number (optional)"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-terracotta focus:border-transparent transition-colors bg-white"
+            />
           </div>
 
           <div className="space-y-2">
@@ -269,7 +263,7 @@ export default function RegisterPage() {
               value={formData.confirmPassword}
               onChange={handleChange}
               required
-              placeholder="Please confirm your password"
+              placeholder="Confirm your password"
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-terracotta focus:border-transparent transition-colors bg-white ${
                 errors.confirmPassword ? "border-red-500" : "border-gray-300"
               }`}
@@ -294,9 +288,9 @@ export default function RegisterPage() {
           <div className="pt-4">
             <button
               type="submit"
-              disabled={isSubmitting || !dealId}
+              disabled={isSubmitting}
               className={`w-full bg-primary-terracotta text-primary-parchment font-noto-sans text-[16px] font-[500] leading-[1.6] tracking-[1.6px] py-3 px-6 rounded-full transition-colors ${
-                isSubmitting || !dealId
+                isSubmitting
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:bg-primary-midnight"
               }`}
@@ -304,8 +298,21 @@ export default function RegisterPage() {
               {isSubmitting ? "Creating..." : "CREATE ACCOUNT"}
             </button>
           </div>
+
+          <div className="text-center">
+            <p className="text-primary-stone font-noto-sans text-sm">
+              Already have an account?{" "}
+              <Link
+                href="/agency/login"
+                className="text-primary-terracotta hover:underline"
+              >
+                Sign in here
+              </Link>
+            </p>
+          </div>
         </form>
       </div>
     </div>
   );
 }
+

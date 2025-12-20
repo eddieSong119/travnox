@@ -1,8 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import Sidebar from "@/components/travellers/Sidebar";
+import AgencySidebar from "@/components/agency/Sidebar";
 
-export default async function DashboardLayout({ children }) {
+export default async function AgencyDashboardLayout({ children }) {
   const supabase = await createClient();
 
   const {
@@ -10,20 +10,24 @@ export default async function DashboardLayout({ children }) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/travellers/account/register");
+    redirect("/agency/login");
   }
 
-  // 获取 traveller 信息
-  const { data: traveller } = await supabase
-    .from("travellers")
+  // 获取 agency 信息
+  const { data: agency } = await supabase
+    .from("agencies")
     .select("*")
     .eq("user_id", user.id)
     .single();
 
+  if (!agency) {
+    redirect("/agency/login");
+  }
+
   return (
     <div className="min-h-screen bg-primary-parchment">
-      <div className="md:ml-64">
-        <Sidebar user={user} traveller={traveller} />
+      <AgencySidebar user={user} agency={agency} />
+      <div className="md:ml-64 pt-16 md:pt-0">
         <main className="p-6 md:p-8">
           <div className="max-w-7xl mx-auto">{children}</div>
         </main>

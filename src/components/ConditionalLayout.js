@@ -6,7 +6,8 @@ import Footer from "./Footer";
 
 export function ConditionalNavBar() {
   const pathname = usePathname();
-  if (pathname?.startsWith("/travellers")) {
+  // 隐藏 agency portal 的网站 header
+  if (pathname?.startsWith("/agency")) {
     return null;
   }
   return <NavBar />;
@@ -14,7 +15,8 @@ export function ConditionalNavBar() {
 
 export function ConditionalFooter() {
   const pathname = usePathname();
-  if (pathname?.startsWith("/travellers")) {
+  // 隐藏 agency portal 的网站 footer
+  if (pathname?.startsWith("/agency")) {
     return null;
   }
   return <Footer />;
@@ -22,7 +24,8 @@ export function ConditionalFooter() {
 
 export function ConditionalSpacer() {
   const pathname = usePathname();
-  if (pathname?.startsWith("/travellers")) {
+  // 隐藏 agency portal 的 spacer
+  if (pathname?.startsWith("/agency")) {
     return null;
   }
   return <div className="h-[70px]" />;

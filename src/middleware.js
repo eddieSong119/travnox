@@ -5,8 +5,8 @@ export async function middleware(request) {
   const { pathname } = request.nextUrl;
   let supabaseResponse = await updateSession(request);
 
-  // 保护 /travellers/dashboard/* 路由
-  if (pathname.startsWith("/travellers/dashboard")) {
+  // 保护 /agency/dashboard/* 路由
+  if (pathname.startsWith("/agency/dashboard")) {
     // 创建 Supabase 客户端来检查认证状态
     const { createServerClient } = await import("@supabase/ssr");
     const supabase = createServerClient(
@@ -36,10 +36,10 @@ export async function middleware(request) {
       data: { user },
     } = await supabase.auth.getUser();
 
-    // 如果用户未认证，重定向到注册页面
+    // 如果用户未认证，重定向到登录页面
     if (!user) {
       const url = request.nextUrl.clone();
-      url.pathname = "/travellers/account/register";
+      url.pathname = "/agency/login";
       return NextResponse.redirect(url);
     }
   }

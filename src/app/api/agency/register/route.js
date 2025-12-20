@@ -16,12 +16,14 @@ const supabaseAdmin = createClient(
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { dealId, firstName, lastName, email, password } = body;
+    const { agencyName, contactName, email, phone, password } = body;
 
     // 验证必填字段
-    if (!dealId || !firstName || !lastName || !email || !password) {
+    if (!agencyName || !contactName || !email || !password) {
       return NextResponse.json(
-        { error: "All fields are required" },
+        {
+          error: "Agency name, contact name, email, and password are required",
+        },
         { status: 400 }
       );
     }
@@ -34,25 +36,24 @@ export async function POST(request) {
       );
     }
 
-    // 检查 dealId 是否已经被使用
-    const { data: existingTraveller, error: checkError } = await supabaseAdmin
-      .from("travellers")
+    // 检查 email 是否已被使用
+    const { data: existingAgency, error: checkError } = await supabaseAdmin
+      .from("agencies")
       .select("id")
-      .eq("zoho_deal_id", dealId)
+      .eq("email", email)
       .single();
 
     if (checkError && checkError.code !== "PGRST116") {
-      // PGRST116 是"未找到行"的错误代码，这是正常的
-      console.error("Error checking deal ID:", checkError);
+      console.error("Error checking email:", checkError);
       return NextResponse.json(
-        { error: "Error validating deal ID" },
+        { error: "Error validating email" },
         { status: 500 }
       );
     }
 
-    if (existingTraveller) {
+    if (existingAgency) {
       return NextResponse.json(
-        { error: "This deal ID has already been used" },
+        { error: "An agency with this email already exists" },
         { status: 400 }
       );
     }
@@ -62,7 +63,7 @@ export async function POST(request) {
       await supabaseAdmin.auth.admin.createUser({
         email,
         password,
-        email_confirm: true, // 自动确认邮箱
+        email_confirm: true,
       });
 
     if (authError) {
@@ -73,25 +74,25 @@ export async function POST(request) {
       );
     }
 
-    // 创建 traveller 记录
-    const { data: travellerData, error: travellerError } = await supabaseAdmin
-      .from("travellers")
+    // 创建 agency 记录
+    const { data: agencyData, error: agencyError } = await supabaseAdmin
+      .from("agencies")
       .insert({
         user_id: authData.user.id,
-        zoho_deal_id: dealId,
-        first_name: firstName,
-        last_name: lastName,
+        agency_name: agencyName,
+        contact_name: contactName,
         email: email,
+        phone: phone || null,
       })
       .select()
       .single();
 
-    if (travellerError) {
-      // 如果创建 traveller 失败，删除已创建的用户
+    if (agencyError) {
+      // 如果创建 agency 失败，删除已创建的用户
       await supabaseAdmin.auth.admin.deleteUser(authData.user.id);
-      console.error("Error creating traveller:", travellerError);
+      console.error("Error creating agency:", agencyError);
       return NextResponse.json(
-        { error: "Failed to create traveller record" },
+        { error: "Failed to create agency record" },
         { status: 500 }
       );
     }
@@ -103,7 +104,7 @@ export async function POST(request) {
           id: authData.user.id,
           email: authData.user.email,
         },
-        traveller: travellerData,
+        agency: agencyData,
       },
       { status: 201 }
     );
@@ -115,3 +116,4 @@ export async function POST(request) {
     );
   }
 }
+
