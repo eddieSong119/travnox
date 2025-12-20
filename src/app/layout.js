@@ -1,8 +1,11 @@
 import "./globals.css";
 import { fontVariables } from "../lib/fonts";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
 import GoogleAnalytics from "../components/GoogleAnalytics";
+import {
+  ConditionalNavBar,
+  ConditionalFooter,
+  ConditionalSpacer,
+} from "../components/ConditionalLayout";
 
 const baseUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.travnox.com.au";
@@ -74,10 +77,10 @@ export default function RootLayout({ children }) {
         className={`${fontVariables} antialiased max-w-screen bg-primary-parchment`}
       >
         <GoogleAnalytics />
-        <NavBar />
-        <div className="h-[70px]" />
+        <ConditionalNavBar />
+        <ConditionalSpacer />
         {children}
-        <Footer />
+        <ConditionalFooter />
       </body>
     </html>
   );
