@@ -233,7 +233,7 @@ export default function EditTravellerPage({ params }) {
           Edit Traveller
         </h1>
         <p className="text-primary-midnight font-noto-sans text-[16px] text-primary-stone">
-          Update the traveller's information
+          Update the traveller&apos;s information
         </p>
       </div>
 

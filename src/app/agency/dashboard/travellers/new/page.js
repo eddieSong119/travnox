@@ -268,7 +268,7 @@ export default function NewTravellerPage() {
           Add New Traveller
         </h1>
         <p className="text-primary-midnight font-noto-sans text-[16px] text-primary-stone">
-          Enter the traveller's information
+          Enter the traveller&apos;s information
         </p>
       </div>
 
