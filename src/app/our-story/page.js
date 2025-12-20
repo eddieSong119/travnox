@@ -2,7 +2,8 @@ import Polaroid from "@/components/Polaroid";
 import LargeGallery from "@/components/HomePage/LargeGallery";
 import Link from "next/link";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.travnox.com.au";
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.travnox.com.au";
 
 export const metadata = {
   title: "Our Story - Building Connections Through Travel",
@@ -112,6 +113,7 @@ const OurStory = () => {
       <section className="h-auto min-h-[100vh] px-[10vw] py-[5vh] md:py-0 bg-primary-parchment flex flex-col md:flex-row items-center justify-center md:gap-x-10">
         <Polaroid
           rotate={3}
+          imageSrc="/images/founder.jpg"
           text="Karl Hong, founder"
           className="block md:hidden w-[70%] mb-20"
         />
@@ -143,6 +145,7 @@ const OurStory = () => {
         </div>
         <Polaroid
           rotate={3}
+          imageSrc="/images/founder.jpg"
           text="Karl Hong, founder"
           className="md:w-full md:max-w-[450px] md:h-auto hidden md:block"
         />
