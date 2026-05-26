@@ -1,0 +1,37 @@
+[
+  {
+    "id": "visa",
+    "q": "Do I need a visa to travel to China?",
+    "a": "In most cases, no. China currently offers visa-free entry for short stays to travellers from many countries, including Australia, New Zealand, and parts of Europe. We’ll confirm the latest requirements and guide you through everything before departure."
+  },
+  {
+    "id": "cost",
+    "q": "Will there be any additional costs during the trip?",
+    "a": "No hidden costs. All core elements of the journey are included. Any additional spending is personal and optional."
+  },
+  {
+    "id": "prepare",
+    "q": "Do I need to prepare anything before the trip?",
+    "a": "No. We handle all communication on the ground, so you won't need to worry about language during the journey."
+  },
+  {
+    "id": "language",
+    "q": "Will there be language barriers?",
+    "a": "No. We handle all communication on the ground, so you won’t need to worry about language at any point during the journey."
+  },
+  {
+    "id": "traveller",
+    "q": "What kind of travellers usually join?",
+    "a": "Travellers who are curious, open, and looking for something beyond standard tours, or travellers who value experience over checklists."
+  },
+  {
+    "id": "plan",
+    "q": "Do I need to plan things myself during the trip?",
+    "a": "No. Everything is taken care of — from flights to on-ground coordination. You can simply enjoy the journey."
+  },
+  {
+    "id": "first-time",
+    "q": "Is this suitable for first-time visitors to China?",
+    "a": "Yes. Our journeys are designed to make China accessible and comfortable, even if it’s your first time visiting."
+  }
+]

@@ -1,5 +1,7 @@
 "use client";
 
+import { splitSentences } from "@/lib/splitSentences";
+
 const DetailedItinerary = ({
   item,
   textColor,
@@ -20,63 +22,6 @@ const DetailedItinerary = ({
   const capitalizeFirstLetter = (string) => {
     if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
-  // 智能分割句子函数，避免在缩写处分割
-  const splitSentences = (text) => {
-    if (!text) return [];
-
-    // 常见缩写列表（不区分大小写）
-    const abbreviations = [
-      "approx",
-      "e.g",
-      "i.e",
-      "etc",
-      "vs",
-      "Dr",
-      "Mr",
-      "Mrs",
-      "Ms",
-      "Prof",
-      "a.m",
-      "p.m",
-      "No",
-      "alt",
-      "2",
-    ];
-
-    // 创建正则表达式，匹配缩写后的句号
-    const abbreviationPattern = new RegExp(
-      `\\b(${abbreviations.join("|")})\\.`,
-      "gi"
-    );
-
-    // 先用特殊标记替换缩写后的句号
-    let processedText = text;
-    const abbreviationMap = new Map();
-    let counter = 0;
-
-    processedText = processedText.replace(abbreviationPattern, (match) => {
-      const placeholder = `__ABBR_${counter}__`;
-      abbreviationMap.set(placeholder, match);
-      counter++;
-      return placeholder;
-    });
-
-    // 现在可以安全地按句号分割
-    const sentences = processedText
-      .split(".")
-      .map((sentence) => sentence.trim())
-      .filter((sentence) => sentence.length > 0);
-
-    // 恢复缩写中的句号
-    return sentences.map((sentence) => {
-      let result = sentence;
-      abbreviationMap.forEach((original, placeholder) => {
-        result = result.replace(placeholder, original);
-      });
-      return result;
-    });
   };
 
   return (
