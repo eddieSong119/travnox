@@ -154,7 +154,7 @@ const TopImageElement = (activities = []) => {
     const imageSrc = image?.url;
 
     return (
-      <div className="flex flex-col w-[100vw] h-[380px] overflow-hidden">
+      <div key={activity?.title} className="flex flex-col w-[100vw] h-[380px] overflow-hidden">
         {imageSrc && (
           <Image
             src={imageSrc}
