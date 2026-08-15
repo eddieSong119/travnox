@@ -88,14 +88,19 @@ const Intro = ({ intro, breakAt, textColor = "text-primary-midnight" }) => {
   );
 };
 
-const Title = ({ title, breakAt, textColor = "text-primary-midnight" }) => {
+const Title = ({
+  title,
+  breakAt,
+  textColor = "text-primary-midnight",
+  textSize = "text-[32px] md:text-[60px]",
+}) => {
   // Add whitespace-nowrap only when there's no breakAt to prevent auto line breaks
   // const noWrapClass = !breakAt ? "whitespace-nowrap" : "";
   const noWrapClass = "";
 
   return (
     <h1
-      className={`text-[32px] md:text-[60px] ${textColor} font-[500] font-pp-museum text-center leading-[1.1] mb-4 ${noWrapClass}`}
+      className={`${textSize} ${textColor} font-[500] font-pp-museum text-center leading-[1.1] mb-4 ${noWrapClass}`}
     >
       {breakText(title, breakAt)}
     </h1>

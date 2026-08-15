@@ -12,6 +12,7 @@ import GalleryElement from "@/components/HomePage/LargeGallery/element";
 import ContactForm from "@/components/ContactForm";
 import Image from "next/image";
 import Link from "next/link";
+import HorizontalGallery from "@/components/HorizonGallery";
 
 const baseUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.travnox.com.au";
@@ -125,7 +126,7 @@ export default async function Home() {
   // Fetch data on the server side using Strapi service
   const { data: homeData, error } = await getHomeData();
   const sections = homeData.content.filter(
-    (section) => section.__component === "components.section"
+    (section) => section.__component === "components.section",
   );
   const section1 = sections[0];
   const section2 = sections[1];
@@ -135,6 +136,8 @@ export default async function Home() {
   const section6 = sections[5];
   const section7 = sections[6];
 
+  console.log(section5.content[0].activity);
+
   // If there's an error, show error page
   if (error) {
     return <ErrorPage error={error} />;
@@ -143,59 +146,26 @@ export default async function Home() {
   return (
     <>
       <main className="min-h-screen bg-primary-parchment">
-        <section className="w-full min-h-[calc(100vh-70px)] md:min-h-[100vh] relative md:flex md:justify-center md:items-start">
+        <section className="relative w-full min-h-[calc(100vh-70px)] overflow-hidden md:min-h-[calc(100vh-70px)] md:flex md:justify-center md:items-start">
           <Image
-            src="/images/home-banner-mobile@2x.png"
-            srcSet="/images/home-banner-mobile@1x.png 1x, /images/home-banner-mobile@2x.png 2x"
+            src="/images/new-home-banner@2x.png"
             alt="Background"
             fill
-            className="object-contain md:hidden object-bottom z-0"
+            priority
+            className="object-cover object-[top_-20px] md:object-[center_-200px] z-0"
             sizes="100vw"
             quality={100}
           />
-
-          <Image
-            src="/images/home-banner@2x.png"
-            srcSet="/images/home-banner@1x.png 1x, /images/home-banner@2x.png 2x"
-            alt="Background"
-            fill
-            className="object-cover hidden md:block z-0"
-            sizes="100vw"
-            quality={100}
-          />
-          <div className="relative z-10 flex flex-col items-center justify-center mx-auto pt-[50px] px-[5vw] md:px-0 md:max-w-[1152px]">
-            <div className="relative md:block hidden">
-              <p className="font-noto-sans text-[14px] font-[600] leading-[100%] text-center">
-                IN PARTNERSHIP WITH
-              </p>
-              <Image
-                src="/brand/XMAirTravel.png"
-                alt="XMAirTravel"
-                width={372}
-                height={35}
-                className="relative bottom-3"
-              />
-            </div>
-            <Title title={section1.title} breakAt={section1.title_breakAt} />
-            <Description description={section1.description} />
-            <div className="relative md:hidden block mt-4">
-              <p className="font-noto-sans text-[14px] font-[600] leading-[100%] text-center">
-                PROUDLY PARTNERED WITH
-              </p>
-              <Image
-                src="/brand/XMAirTravel.png"
-                alt="XMAirTravel"
-                width={372}
-                height={35}
-                className="relative bottom-3"
-              />
-            </div>
-            <Link
-              href="/contact"
-              className="w-full mt-0 md:mt-6 md:w-auto bg-primary-terracotta text-primary-parchment py-2 px-8 text-[16px] font-noto-sans font-[500] leading-[160%] rounded-full text-center"
-            >
-              START YOUR JOURNEY
-            </Link>
+          <div className="relative z-10 flex w-full max-w-[890px] md:max-w-[1158px] flex-col items-center justify-center mx-auto pt-[30px] md:pt-[50px] md:pt-[120px] px-[5vw] md:px-4">
+            <Title
+              title={"Authentic cultural experiences in the heart of China."}
+              textSize={"text-[32px] md:text-[80px]"}
+            />
+            <Description
+              description={
+                "For modern explorers chasing authentic Chinese moments, places, and stories—from ancient myths to modern life, our journeys bring you closer to the heart of China's timeless culture."
+              }
+            />
           </div>
         </section>
 
@@ -208,68 +178,61 @@ export default async function Home() {
           }}
         >
           <div className="absolute top-[191px] left-[50%] w-full px-4 translate-x-[-50%] flex flex-col items-center justify-center mx-auto max-w-[890px]">
-            <Intro intro={section2.intro} textColor="text-primary-parchment" />
+            <Intro intro={"WHO WE ARE"} textColor="text-primary-parchment" />
             <TwoColorTitle
-              title={section2.title}
-              breakAt={section2.title_breakAt}
+              title={"Not tour guides. Cultural storytellers."}
+              breakAt={"guides."}
               textColor="text-[#efeee966]"
               secondColor="text-primary-parchment"
             />
             <Description
-              description={section2.long_description[0].children[0].text}
+              description={
+                "TravNox exists to shift perspectives and bridge cultural gaps, taking travellers beyond the ordinary. Through premium hosted tours, we explore places where myth meets modernity, and cities pulse with untold stories, and landscapes hold memory."
+              }
               textColor="text-primary-parchment"
             />
             <Link
               href="/our-story"
               className={`text-primary-parchment border-primary-parchment mt-10 px-7 py-3 rounded-full border font-noto-sans font-[500] text-[16px] `}
             >
-              {section2.CTA}
+              OUR STORY
             </Link>
           </div>
         </section>
 
         <section className="relative">
-          <div className="flex flex-col items-center justify-center mx-auto pt-[80px] pb-[72px] px-12 md:pt-[228px] md:pb-[311px]">
-            <Intro
-              intro={section3.intro}
-              breakAt={section3.intro_breakAt}
-              textColor="text-primary-midnight"
-            />
-            <Title title={section3.title} breakAt={section3.title_breakAt} />
-            <Description
-              description={section3.description}
-              breakAt={section3.description_breakAt}
-              textColor="text-primary-midnight"
-            />
+          <div className="flex flex-col items-center justify-center mx-auto pt-[80px] pb-[72px] md:pt-[228px] md:pb-[311px]">
+            <div className="flex w-full max-w-[890px] flex-col items-center px-4">
+              <Intro intro={"YUNNAN, 2026"} textColor="text-primary-midnight" />
+              <Title
+                title={"Explore highlights from our first journey."}
+                breakAt={"highlights"}
+              />
+              <Description
+                description={
+                  "In June 2026, we travelled to Yunnan, China for our inaugural TravNox trip. A way for us to get a deeper understanding of how to best share our culture and country with you — our curious explorers. Enjoy some of our highlights."
+                }
+                textColor="text-primary-midnight"
+              />
+            </div>
+
+            <HorizontalGallery section={section5} />
           </div>
         </section>
 
-        <LargeGallery
-          scrollElements={ScrollElements(section4, section5, section6)}
-          className="px-[10px] md:pl-0 mb-[50px] md:mb-[100px]"
-          slideClassName="md:pb-[100px]"
-        />
-
-        <Stays section={section7} />
-
-        <section className="relative z-10 flex flex-col items-center justify-center">
+        <section className="relative z-10 flex flex-col items-center justify-center pb-10">
           <div className="md:w-[700px]">
+            <Intro intro={"TRAVEL WITH US"} textColor="text-primary-midnight" />
             <h2 className="text-primary-midnight font-pp-museum text-[24px] md:text-[48px] font-[500] mb-4 leading-[1.2] text-center">
-              Enjoy seamless luxury, from city lights to mountain mist
+              We’re planning our next adventures.
             </h2>
             <p className="text-primary-midnight font-pp-museum text-[18px] md:text-[20px] font-[300] leading-[1.6] text-center mb-10">
-              Fill out the form to find out more, explore departure dates, and
-              book your trip.
+              Seeking expressions of interest from culturally curious explorers,
+              who want to visit a new part of the world, and help us shape the
+              future of China as a holiday destination.
             </p>
             <ContactForm />
           </div>
-
-          <img
-            src="images/Contact@1x.png"
-            srcSet="images/Contact@2x.png 2x"
-            alt="Enjoy seamless luxury, from city lights to mountain mist"
-            className=" w-full h-full object-cover"
-          />
         </section>
       </main>
     </>

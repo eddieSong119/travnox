@@ -6,19 +6,10 @@ import { useRouter } from "next/navigation";
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isJourneysDropdownOpen, setIsJourneysDropdownOpen] = useState(false);
   const router = useRouter();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-  };
-
-  const toggleJourneysDropdown = () => {
-    setIsJourneysDropdownOpen(!isJourneysDropdownOpen);
-  };
-
-  const closeJourneysDropdown = () => {
-    setIsJourneysDropdownOpen(false);
   };
 
   return (
@@ -54,62 +45,6 @@ export default function NavBar() {
             >
               CONTACT
             </a>
-
-            {/* Desktop Journeys Dropdown */}
-            <div className="relative">
-              <button
-                onClick={toggleJourneysDropdown}
-                onMouseEnter={() => setIsJourneysDropdownOpen(true)}
-                className="text-[16px] font-noto-sans font-normal text-primary-midnight hover:text-primary-terracotta px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center"
-              >
-                JOURNEYS
-                <svg
-                  className={`ml-1 h-4 w-4 transition-transform duration-200 ${
-                    isJourneysDropdownOpen ? "rotate-180" : ""
-                  }`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-
-              {/* Desktop Dropdown Menu */}
-              {isJourneysDropdownOpen && (
-                <div
-                  className="absolute top-full left-0 mt-1 w-48 z-50 w-[340px]"
-                  onMouseLeave={closeJourneysDropdown}
-                >
-                  <a
-                    href="/north"
-                    className="block pl-6 py-6 text-[16px] font-noto-sans bg-primary-midnight hover:bg-primary-stone text-primary-parchment transition-colors duration-200"
-                    onClick={closeJourneysDropdown}
-                  >
-                    THE NORTH
-                  </a>
-                  <a
-                    href="/south"
-                    className="block pl-6 py-6 text-[16px] font-noto-sans bg-primary-midnight hover:bg-primary-stone text-primary-parchment transition-colors duration-200"
-                    onClick={closeJourneysDropdown}
-                  >
-                    THE SOUTH
-                  </a>
-                  <a
-                    href="/chuanyu"
-                    className="block pl-6 py-6 text-[16px] font-noto-sans bg-primary-midnight hover:bg-primary-stone text-primary-parchment transition-colors duration-200"
-                    onClick={closeJourneysDropdown}
-                  >
-                    CHUANYU
-                  </a>
-                </div>
-              )}
-            </div>
           </div>
         </div>
 
@@ -175,59 +110,6 @@ export default function NavBar() {
               CONTACT
             </a>
 
-            {/* Journeys 折叠菜单 - 使用纯 CSS */}
-            <div className="journeys-dropdown">
-              <input
-                type="checkbox"
-                id="journeys-toggle"
-                className="journeys-toggle hidden"
-              />
-              <label
-                htmlFor="journeys-toggle"
-                className="text-[14px] font-noto-sans text-primary-midnight block px-3 py-2 font-[500] cursor-pointer flex items-center justify-between"
-              >
-                <span>JOURNEYS</span>
-                <svg
-                  className="journeys-arrow h-4 w-4 transition-transform duration-200"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </label>
-
-              {/* 子选项 */}
-              <div className="journeys-submenu ml-4 mt-2 space-y-2 max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                <a
-                  href="/north"
-                  className="text-[14px] font-noto-sans text-primary-midnight block px-3 py-2 font-[500]"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  THE NORTH
-                </a>
-                <a
-                  href="/south"
-                  className="text-[14px] font-noto-sans text-primary-midnight block px-3 py-2 font-[500]"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  THE SOUTH
-                </a>
-                <a
-                  href="/chuanyu"
-                  className="text-[14px] font-noto-sans text-primary-midnight block px-3 py-2 font-[500]"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  CHUANYU
-                </a>
-              </div>
-            </div>
-
             <div className="pt-4">
               <button
                 onClick={() => router.push("/contact")}
@@ -251,16 +133,6 @@ export default function NavBar() {
           </span>
         </div>
       )}
-
-      <style jsx>{`
-        .journeys-toggle:checked + label .journeys-arrow {
-          transform: rotate(180deg);
-        }
-
-        .journeys-toggle:checked ~ .journeys-submenu {
-          max-height: 200px;
-        }
-      `}</style>
     </nav>
   );
 }

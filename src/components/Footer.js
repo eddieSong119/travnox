@@ -101,31 +101,6 @@ const Footer = () => {
               </a>
             </div>
 
-            <div className="flex flex-col h-full mr-10">
-              <p className="text-primary-parchment font-pp-museum text-[20px] font-[300] leading-[1.1] tracking-[1.6px] mb-5">
-                Journeys
-              </p>
-
-              <a
-                href="/north"
-                className="text-primary-parchment font-noto-sans text-[16px] font-[300] leading-[1.6] tracking-[1.6px] mb-2"
-              >
-                North
-              </a>
-              <a
-                href="/south"
-                className="text-primary-parchment font-noto-sans text-[16px] font-[300] leading-[1.6] tracking-[1.6px] mb-2"
-              >
-                South
-              </a>
-              <a
-                href="/chuanyu"
-                className="text-primary-parchment font-noto-sans text-[16px] font-[300] leading-[1.6] tracking-[1.6px]"
-              >
-                Chuanyu
-              </a>
-            </div>
-
             <div className="flex flex-col h-full">
               <p className="text-primary-parchment font-pp-museum text-[20px] font-[300] leading-[1.1] tracking-[1.6px] mb-5">
                 Contact
@@ -197,29 +172,6 @@ const Footer = () => {
               className="text-primary-parchment font-noto-sans text-[16px] font-[300] leading-[1.6] tracking-[1.6px]"
             >
               Contact
-            </a>
-          </div>
-          <div className="flex flex-col w-1/2">
-            <p className="text-primary-parchment font-pp-museum text-[18px] font-[300] mb-5">
-              Journeys
-            </p>
-            <a
-              href="/north"
-              className="text-primary-parchment font-noto-sans text-[16px] font-[300] leading-[1.6] tracking-[1.6px] mb-2"
-            >
-              North
-            </a>
-            <a
-              href="/south"
-              className="text-primary-parchment font-noto-sans text-[16px] font-[300] leading-[1.6] tracking-[1.6px] mb-2"
-            >
-              South
-            </a>
-            <a
-              href="/chuanyu"
-              className="text-primary-parchment font-noto-sans text-[16px] font-[300] leading-[1.6] tracking-[1.6px]"
-            >
-              Chuanyu
             </a>
           </div>
         </div>
