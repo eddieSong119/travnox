@@ -20,13 +20,13 @@ export async function POST(request) {
     if (!firstName || !email || !message) {
       return NextResponse.json(
         { error: "Please fill in all required fields" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // 发送邮件
     const data = await resend.emails.send({
-      from: "Travnox Website <onboarding@resend.dev>", // 之后改成你的域名
+      from: "Travnox Website <onboarding@travnox.com.au>", // 之后改成你的域名
       to: [
         "eddie@travnox.com.au",
         "karl@travnox.com.au",
@@ -51,13 +51,13 @@ export async function POST(request) {
 
     return NextResponse.json(
       { message: "Email sent successfully", id: data.id },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error sending email:", error);
     return NextResponse.json(
       { error: "Failed to send email" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
