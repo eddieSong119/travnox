@@ -4,7 +4,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 
 const ROW_HEIGHT = 430;
 const IMAGE_GAP = 20;
-const MOBILE_BREAKPOINT = 768;
+const DESKTOP_MIN_WIDTH = 768;
 
 /**
  * =========================================================
@@ -24,7 +24,7 @@ const getImageAttributes = (image, location) => {
 
 /**
  * =========================================================
- * Gallery Image (desktop horizontal rows)
+ * Gallery Image
  * =========================================================
  */
 function GalleryImageItem({ image }) {
@@ -32,7 +32,7 @@ function GalleryImageItem({ image }) {
 
   return (
     <div
-      className="relative h-[430px] shrink-0 overflow-hidden"
+      className="relative h-[430px] w-auto shrink-0 overflow-hidden"
       style={{
         width,
       }}
@@ -55,28 +55,25 @@ function GalleryImageItem({ image }) {
 
 /**
  * =========================================================
- * Horizontal / Vertical Gallery
+ * Horizontal Gallery
+ *
+ * Desktop (wide viewport): optional mouse drag
+ * Mobile / DevTools mobile width: native scroll only
+ *
+ * Important: min-w-0 keeps the wide track from expanding
+ * the page (flex default min-width:auto breaks scroll).
  * =========================================================
  */
 export default function HorizontalGallery({ section }) {
   const viewportRef = useRef(null);
-  const mobileViewportRef = useRef(null);
-  const locationRefs = useRef({});
+  const isDraggingRef = useRef(false);
+  const dragStartX = useRef(0);
+  const initialScrollLeft = useRef(0);
 
   const [activeLocation, setActiveLocation] = useState(
     section?.content?.[0]?.title || "",
   );
 
-  const [isDragging, setIsDragging] = useState(false);
-
-  const dragStartX = useRef(0);
-  const initialScrollLeft = useRef(0);
-
-  /**
-   * =======================================================
-   * Flatten all Strapi images
-   * =======================================================
-   */
   const images = useMemo(() => {
     if (!section?.content) {
       return [];
@@ -89,11 +86,6 @@ export default function HorizontalGallery({ section }) {
     );
   }, [section]);
 
-  /**
-   * =======================================================
-   * Locations (nav metadata, first image per location)
-   * =======================================================
-   */
   const locations = useMemo(() => {
     const result = [];
     const seen = new Set();
@@ -114,33 +106,6 @@ export default function HorizontalGallery({ section }) {
     return result;
   }, [images]);
 
-  /**
-   * =======================================================
-   * Mobile: group images by location
-   * =======================================================
-   */
-  const groups = useMemo(() => {
-    const result = [];
-    const seen = new Map();
-
-    images.forEach((image) => {
-      if (!seen.has(image.location)) {
-        const group = { location: image.location, images: [] };
-        seen.set(image.location, group);
-        result.push(group);
-      }
-
-      seen.get(image.location).images.push(image);
-    });
-
-    return result;
-  }, [images]);
-
-  /**
-   * =======================================================
-   * Desktop: split into two rows
-   * =======================================================
-   */
   const firstRow = useMemo(() => {
     return images.filter((_, index) => index % 2 === 0);
   }, [images]);
@@ -160,48 +125,8 @@ export default function HorizontalGallery({ section }) {
     [firstRow],
   );
 
-  const isMobile = useCallback(() => {
-    if (typeof window === "undefined") {
-      return false;
-    }
-
-    return window.innerWidth < MOBILE_BREAKPOINT;
-  }, []);
-
-  /**
-   * =======================================================
-   * Scroll to location
-   * =======================================================
-   */
   const scrollToLocation = useCallback(
     (originalIndex) => {
-      const location = images[originalIndex]?.location;
-
-      if (!location) {
-        return;
-      }
-
-      setActiveLocation(location);
-
-      if (isMobile()) {
-        const container = mobileViewportRef.current;
-        const groupEl = locationRefs.current[location];
-
-        if (container && groupEl) {
-          const top =
-            groupEl.getBoundingClientRect().top -
-            container.getBoundingClientRect().top +
-            container.scrollTop;
-
-          container.scrollTo({
-            top,
-            behavior: "smooth",
-          });
-        }
-
-        return;
-      }
-
       const viewport = viewportRef.current;
 
       if (!viewport) {
@@ -215,66 +140,46 @@ export default function HorizontalGallery({ section }) {
         left: offset,
         behavior: "smooth",
       });
+
+      const location = images[originalIndex]?.location;
+
+      if (location) {
+        setActiveLocation(location);
+      }
     },
-    [getImageOffset, images, isMobile],
+    [getImageOffset, images],
   );
 
-  /**
-   * =======================================================
-   * Mobile: active location from vertical scroll
-   * =======================================================
-   */
-  const handleMobileScroll = () => {
-    const container = mobileViewportRef.current;
+  const canMouseDrag = () => {
+    if (typeof window === "undefined") {
+      return false;
+    }
 
-    if (!container) {
+    // DevTools mobile width must use native scroll — mouse
+    // pointer capture would block vertical page scroll.
+    return window.innerWidth >= DESKTOP_MIN_WIDTH;
+  };
+
+  const handlePointerDown = (event) => {
+    if (event.pointerType !== "mouse" || !canMouseDrag()) {
       return;
     }
 
-    const scrollTop = container.scrollTop;
-    let currentLocation = groups[0]?.location || "";
-
-    for (const group of groups) {
-      const el = locationRefs.current[group.location];
-
-      if (!el) {
-        continue;
-      }
-
-      const top =
-        el.getBoundingClientRect().top -
-        container.getBoundingClientRect().top +
-        container.scrollTop;
-
-      if (top <= scrollTop + 80) {
-        currentLocation = group.location;
-      }
-    }
-
-    if (currentLocation !== activeLocation) {
-      setActiveLocation(currentLocation);
-    }
-  };
-  /**
-   * =======================================================
-   * Desktop pointer drag
-   * =======================================================
-   */
-  const handlePointerDown = (event) => {
     const viewport = viewportRef.current;
 
     if (!viewport) {
       return;
     }
 
-    setIsDragging(true);
+    isDraggingRef.current = true;
     dragStartX.current = event.clientX;
     initialScrollLeft.current = viewport.scrollLeft;
+    viewport.style.cursor = "grabbing";
     viewport.setPointerCapture(event.pointerId);
   };
 
   const handlePointerMove = (event) => {
-    if (!isDragging) {
+    if (!isDraggingRef.current || event.pointerType !== "mouse") {
       return;
     }
 
@@ -289,7 +194,11 @@ export default function HorizontalGallery({ section }) {
   };
 
   const handlePointerUp = (event) => {
-    setIsDragging(false);
+    if (event.pointerType !== "mouse") {
+      return;
+    }
+
+    isDraggingRef.current = false;
 
     const viewport = viewportRef.current;
 
@@ -297,16 +206,13 @@ export default function HorizontalGallery({ section }) {
       return;
     }
 
+    viewport.style.cursor = "";
+
     if (viewport.hasPointerCapture(event.pointerId)) {
       viewport.releasePointerCapture(event.pointerId);
     }
   };
 
-  /**
-   * =======================================================
-   * Desktop: active location from horizontal scroll
-   * =======================================================
-   */
   const handleScroll = () => {
     const viewport = viewportRef.current;
 
@@ -332,10 +238,7 @@ export default function HorizontalGallery({ section }) {
   };
 
   return (
-    <section className="w-full pt-4">
-      {/* =================================================
-          Navigation
-      ================================================= */}
+    <section className="w-full min-w-0 max-w-full pt-4">
       <nav className="mb-10 w-full max-w-full overflow-x-auto overscroll-x-contain no-scrollbar">
         <div className="flex w-max min-w-full justify-center gap-8 px-5 md:px-20">
           {locations.map((location) => (
@@ -363,60 +266,21 @@ export default function HorizontalGallery({ section }) {
         </div>
       </nav>
 
-      {/* =================================================
-          Mobile: vertical groups by location
-      ================================================= */}
-      <div
-        ref={mobileViewportRef}
-        className="max-h-[70vh] overflow-y-auto overscroll-y-contain no-scrollbar px-5 md:hidden"
-        onScroll={handleMobileScroll}
-      >
-        <div className="flex flex-col gap-10">
-          {groups.map((group) => (
-            <div
-              key={group.location}
-              ref={(el) => {
-                locationRefs.current[group.location] = el;
-              }}
-              data-location={group.location}
-            >
-              <div className="flex flex-col gap-5">
-                {group.images.map((image) => (
-                  <div
-                    key={image.id}
-                    className="relative w-full overflow-hidden"
-                  >
-                    <img
-                      src={image.url}
-                      alt={image.alt}
-                      draggable={false}
-                      className="h-auto w-full select-none object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* =================================================
-          Desktop: horizontal dual-row viewport
-      ================================================= */}
       <div
         ref={viewportRef}
         className="
-          hidden
           w-full
+          min-w-0
+          max-w-full
           overflow-x-auto
           overflow-y-hidden
+          overscroll-x-contain
           select-none
-          scrollbar-none
-          md:block
+          no-scrollbar
+          md:cursor-grab
         "
         style={{
-          cursor: isDragging ? "grabbing" : "grab",
-          touchAction: "pan-y",
+          WebkitOverflowScrolling: "touch",
         }}
         onScroll={handleScroll}
         onPointerDown={handlePointerDown}
@@ -424,7 +288,7 @@ export default function HorizontalGallery({ section }) {
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
       >
-        <div className="w-max pl-5 md:pl-20">
+        <div className="flex w-max max-w-none flex-col pl-5 md:pl-20">
           <div className="flex gap-5">
             {firstRow.map((image) => (
               <GalleryImageItem key={image.id} image={image} />

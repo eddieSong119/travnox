@@ -201,7 +201,7 @@ export default async function Home() {
         </section>
 
         <section className="relative">
-          <div className="flex flex-col items-center justify-center mx-auto pt-[80px] pb-[72px] md:pt-[228px] md:pb-[311px]">
+          <div className="flex w-full min-w-0 flex-col items-center justify-center mx-auto pt-[80px] pb-[72px] md:pt-[228px] md:pb-[311px]">
             <div className="flex w-full max-w-[890px] flex-col items-center px-4">
               <Intro intro={"YUNNAN, 2026"} textColor="text-primary-midnight" />
               <Title
