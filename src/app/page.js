@@ -146,13 +146,13 @@ export default async function Home() {
   return (
     <>
       <main className="min-h-screen bg-primary-parchment">
-        <section className="relative w-full min-h-[calc(100vh-70px)] overflow-hidden md:min-h-[calc(100vh-70px)] md:flex md:justify-center md:items-start">
+        <section className="relative w-full min-h-[120vh] overflow-hidden md:min-h-[120vh] md:flex md:justify-center md:items-start">
           <Image
             src="/images/new-home-banner@2x.png"
             alt="Background"
             fill
             priority
-            className="object-cover object-[top_-20px] md:object-[center_-200px] z-0"
+            className="object-cover object-[top_-20px] md:object-[center_-100px] z-0"
             sizes="100vw"
             quality={100}
           />

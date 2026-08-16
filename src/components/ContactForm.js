@@ -165,7 +165,7 @@ const ContactForm = () => {
             htmlFor="journey"
             className="block text-[#262B2F] font-noto-sans text-base font-medium tracking-[1.6px]"
           >
-            JOURNEY
+            AIRPORT DEPARTING FROM
           </label>
           <select
             id="journey"
@@ -173,10 +173,9 @@ const ContactForm = () => {
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors bg-white"
           >
-            <option value="">Select your journey</option>
-            <option value="north">North</option>
-            <option value="south">South</option>
-            <option value="chuanyu">Chuanyu</option>
+            <option value="">Select your airport</option>
+            <option value="syd">Sydney</option>
+            <option value="mel">Melbourne</option>
           </select>
         </div>
 
@@ -185,7 +184,7 @@ const ContactForm = () => {
             htmlFor="travellers"
             className="block text-[#262B2F] font-noto-sans text-base font-medium tracking-[1.6px]"
           >
-            TRAVELLERS
+            NO. OF TRAVELLERS
           </label>
           <select
             id="travellers"
@@ -208,7 +207,7 @@ const ContactForm = () => {
           htmlFor="message"
           className="block text-[#262B2F] font-noto-sans text-base font-medium tracking-[1.6px]"
         >
-          MESSAGE *
+          WHAT EXCITES YOU ABOUT GOING TO CHINA?
         </label>
         <textarea
           id="message"
